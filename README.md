@@ -22,7 +22,9 @@ ADD https://github.com/hiteshjasani/nim-mungehosts/releases/download/v0.1.0/mung
 RUN chmod 755 /usr/local/bin/mungehosts
 ```
 
-### 2. When you run your container, run a startup script that invokes
+### 2. Run a startup script when running your container
+
+When you run your container, run a startup script that invokes
 mungehosts and updates your hosts file before running your server process.
 See the section below on command line usage for examples.
 
