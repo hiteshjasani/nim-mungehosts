@@ -45,6 +45,7 @@ Will result in
 
 ```bash
 127.0.0.1  localhost foo
+::1        localhost foo
 ```
 
 Any existing aliases will be preserved, so running the command again
@@ -53,18 +54,20 @@ with trying to alias `bar` will result in
 ```bash
 % sudo mungehosts -l bar
 % cat /etc/hosts
-127.0.0.1  localhost bar foo
+127.0.0.1  localhost foo bar
+::1        localhost foo bar
 ```
 
 ### Add host mapping
 
-To add a mapping for host `foo` at `192.168.0.1`
+To add a mapping for host `baz` at `192.168.0.1`
 
 ```bash
-% sudo mungehosts -a "192.168.0.1  foo"
+% sudo mungehosts -a "192.168.0.1  baz"
 % cat /etc/hosts
 127.0.0.1  localhost
-192.168.0.1  foo
+::1        localhost
+192.168.0.1  baz
 ```
 
 ### Help

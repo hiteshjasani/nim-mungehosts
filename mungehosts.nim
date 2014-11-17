@@ -1,6 +1,8 @@
 
 import parseopt2, pegs, strutils
 
+proc writeVersion*() = echo "0.1.1"
+
 proc writeHelp() = echo """
 Alter /etc/hosts file with a new localhost alias or host mapping.
 
@@ -27,13 +29,15 @@ Sample Usage:
 Add host alias for localhost
   % mungehosts -l kafka
 
-  Will change this line in /etc/hosts
+  Will change these lines in /etc/hosts
 
   127.0.0.1    localhost
+  ::1          localhost ip6-localhost ip6-loopback
 
-  to this line
+  to this
 
-  127.0.0.1  localhost kafka
+  127.0.0.1    localhost kafka
+  ::1          localhost ip6-localhost ip6-loopback kafka
 
 
 Add a host mapping
@@ -43,8 +47,6 @@ Add a host mapping
 
   192.168.0.1  router
 """
-
-proc writeVersion*() = echo "0.1.0"
 
 proc writeHosts*() = echo(readFile("/etc/hosts"))
 
@@ -59,16 +61,15 @@ proc readHosts(): seq[string] =
   result = split(raw, '\L')
 
 proc doAddAlias(alias: string) =
-  var
-    lines = readHosts()
-    index = -1
-    extra = ""
+  let
+    ip4 = peg"{'127.0.0.1' \s+ 'localhost'} {.*}"
+    ip6 = peg"{'::1' \s+ 'localhost'} {.*}"
+  var lines = readHosts()
   for i in 0.. <lines.len:
-    if lines[i] =~ peg"'127.0.0.1' \s+ 'localhost' {.*}":
-      index = i
-      extra = matches[0]
-  if index >= 0:
-    lines[index] = "127.0.0.1  localhost " & alias & extra
+    if lines[i] =~ ip4:
+      lines[i] = matches[0] & matches[1] & " " & alias
+    if lines[i] =~ ip6:
+      lines[i] = matches[0] & matches[1] & " " & alias
   updateFile(lines, false)
 
 proc doAddHost(hostmap: string) =
@@ -96,6 +97,7 @@ when isMainModule:
       of "add-alias", "l": action = addAlias
       of "add-host", "a": action = addHost
       of "print", "p": writeHosts(); quit()
+      else: writeHelp(); quit()
     of cmdEnd: assert(false) # cannot happen
 
   case action:
