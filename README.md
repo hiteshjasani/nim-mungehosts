@@ -134,8 +134,6 @@ No.  Not if you use the precompiled Linux binary.
 
 #### I'm getting a too many redirects error on OSX, help?
 
-### Too many redirects
-
 If you see this kind of message:
 
 ```bash
