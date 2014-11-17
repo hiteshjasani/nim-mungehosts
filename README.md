@@ -1,5 +1,5 @@
-nim-mungehosts
-==============
+mungehosts
+==========
 Mungehosts is a tool to enable programmatically altering the `/etc/hosts` file
 from the Linux command line.  Run with arguments, the tool can add aliases
 for localhost and add new IP-to-host mappings.  This means you can embed
@@ -47,12 +47,28 @@ with trying to alias `bar` will result in
 % mungehosts --help
 ```
 
-### Dependencies
+## Usage with Docker
 
+Unfortunately, Docker does not persist the `/etc/hosts` file between
+`RUN` commands in Dockerfiles.  The recommended way to use this tool
+is to have a startup script that runs when starting your Docker
+container.  Inside this script, add lines running this tool before
+starting your server process.
+
+Your Dockerfile can have commands to load this tool into your image.
+
+```
+ADD https://github.com/hiteshjasani/nim-mungehosts/releases/download/v0.1.0/mungehosts /usr/local/bin/mungehosts
+RUN chmod 755 /usr/local/bin/mungehosts
+```
+
+## Dependencies
+
+### Runtime
 There are no runtime dependencies other than standard C.
 
 ```bash
-# ldd ./mungehosts
+% ldd ./mungehosts
         linux-vdso.so.1 =>  (0x00007fffbc9fd000)
         libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007f7991f40000)
         libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f7991b7a000)
