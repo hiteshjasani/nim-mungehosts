@@ -18,7 +18,7 @@ required aliasing localhost to this other hostname.
 ### 1. Add the tool to your image in your Dockerfile
 
 ```
-ADD https://github.com/hiteshjasani/nim-mungehosts/releases/download/v0.1.0/mungehosts /usr/local/bin/mungehosts
+ADD https://github.com/hiteshjasani/nim-mungehosts/releases/download/v0.1.1/mungehosts /usr/local/bin/mungehosts
 RUN chmod 755 /usr/local/bin/mungehosts
 ```
 
@@ -127,4 +127,8 @@ sed: cannot rename /etc/sedl8ySxL: Device or resource busy
 ```
 
 Mungehosts was written to bypass this problem.
+
+#### Do I have to install Nim?
+
+No.  Not if you use the precompiled Linux binary.
 
