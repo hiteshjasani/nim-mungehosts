@@ -15,18 +15,18 @@ required aliasing localhost to this other hostname.
 
 ## Usage with Docker
 
-* Add the tool to your image in your Dockerfile
+1. Add the tool to your image in your Dockerfile
 
 ```
 ADD https://github.com/hiteshjasani/nim-mungehosts/releases/download/v0.1.0/mungehosts /usr/local/bin/mungehosts
 RUN chmod 755 /usr/local/bin/mungehosts
 ```
 
-* When you run your container, run a startup script that invokes
+2. When you run your container, run a startup script that invokes
 mungehosts and updates your hosts file before running your server process.
 See the section below on command line usage for examples.
 
-### Why can't I update /etc/hosts using the RUN command in a Dockerfile?
+#### Why can't I update /etc/hosts using the RUN command in a Dockerfile?
 
 Unfortunately, Docker does not persist the `/etc/hosts` file between
 `RUN` commands in Dockerfiles.  They only persist changes you make in
@@ -35,7 +35,7 @@ is to have a startup script that runs when starting your Docker
 container.  Inside this script, add lines running this tool before
 starting your server process.
 
-### Why can't I simply use `sed` to modify `/etc/hosts`?
+#### Why can't I simply use `sed` to modify `/etc/hosts`?
 
 `sed` and similar tools actually write their changes to another temp
 file and then attempt to move it over to `/etc/hosts`.  The problem with
