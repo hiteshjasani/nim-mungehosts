@@ -2,7 +2,7 @@ mungehosts
 ==========
 Mungehosts is a tool to enable programmatically altering the `/etc/hosts` file
 from the Linux command line.  Run with arguments, the tool can add aliases
-for localhost and add new IP-to-host mappings.  This means you can embed
+for localhost and add new hostname-to-ip mappings.  This means you can embed
 hosts file changes into your scripts -- altering the hosts file on machine
 startup is a good example.
 
@@ -138,29 +138,15 @@ If you see this kind of message:
 
 ```bash
 Step 4 : ADD https://github.com/hiteshjasani/nim-mungehosts/releases/download/v0.1.0/mungehosts /usr/local/src/mungehosts
-2014/11/16 18:36:22 Get https://s3.amazonaws.com/github-cloud/releases/26729671/1047aa0e-6dbf-11e4-93b9-7a358f6958f9?response-content-disposition=attachment%3B%20filename%3Dmungehosts&response-content-type=application/octet-stream&AWSAccessKeyId=AKIAISTNZFOVBIJMK3TQ&Expires=1416181042&Signature=%2F1DgDIn3E9zNQvIg9QMkAWh0SZM%3D: dial tcp: lookup s3.amazonaws.com on [10.0.2.3]:53: too many redirects
-make: *** [all] Error 1
+2014/11/16 18:36:22 Get https://s3.amazonaws.com/github-cloud/releases/26729671/1047aa0e-6dbf-11e4-93b9-7a358f6958f9?response-content-disposition=attachment%3B%20filename%3Dmungehosts&response-content-type=application/octet-stream&AWSAccessKeyId=AKIAISTNZFOVBIJMK3TQ&Expires=1416181042&Signature=%2F1DgDIn3E9zNQvIg9QMkAWh0SZM%3D:
+dial tcp: lookup s3.amazonaws.com on [10.0.2.3]:53: too many redirects
 ```
 
 Then the problem may be a DNS issue if you're on OSX.  A workaround for this is to log into boot2docker and update the dns servers.
 
 ```bash
 % boot2docker ssh
-                        ##        .
-                  ## ## ##       ==
-               ## ## ## ##      ===
-           /""""""""""""""""\___/ ===
-      ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~
-           \______ o          __/
-             \    \        __/
-              \____\______/
- _                 _   ____     _            _
-| |__   ___   ___ | |_|___ \ __| | ___   ___| | _____ _ __
-| '_ \ / _ \ / _ \| __| __) / _` |/ _ \ / __| |/ / _ \ '__|
-| |_) | (_) | (_) | |_ / __/ (_| | (_) | (__|   <  __/ |
-|_.__/ \___/ \___/ \__|_____\__,_|\___/ \___|_|\_\___|_|
-boot2docker: 1.3.0
-             master : a083df4 - Thu Oct 16 17:05:03 UTC 2014
+   ...
 docker@boot2docker:~$ cat /etc/resolv.conf
 nameserver 10.0.2.3
 docker@boot2docker:~$ sudo vi /etc/resolv.conf
